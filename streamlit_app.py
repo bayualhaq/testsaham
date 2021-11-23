@@ -32,7 +32,7 @@ end             = st.sidebar.date_input("Tanggal Akhir", datetime.date(2021, 10,
 # Informasi saham
 # Menampilkan nama lengkap saham
 string_name = ticker_data.info['longName']
-st.markdown("<h1 style='text-align: center; color: white;'>%s</h1>" % string_name, unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>%s</h1>" % string_name, unsafe_allow_html=True)
 
 # Menampilkan logo saham
 string_logo = '<center><img src=%s ></center></br>' % ticker_data.info['logo_url']

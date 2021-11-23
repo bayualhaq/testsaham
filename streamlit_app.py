@@ -7,7 +7,7 @@ import datetime
 # import numpy as np
 
 # Menampilkan teks header pada slidebar
-st.sidebar.header("Analisa Pasar Saham \n Masukkan Data Saham")
+st.sidebar.header("Peramalan Saham \n Masukkan Data Saham")
 
 # Membuat fungsi untuk mengambil informasi dari symbol saham
 def get_ticker(ticker):

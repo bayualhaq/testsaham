@@ -20,14 +20,14 @@ def get_history(start, end):
     if len(df) == 0:
         st.write('Data saham tidak ditemukan, silahkan atur kembali sampai data tersedia')
     else:
-        df.index = df.index.strftime("%d-%m-%Y %H:%M")
+        df.index = df.index.strftime("%d-%m-%Y")
         return df
 
 # Input Data
 ticker_symbol   = st.sidebar.text_input("Symbol Saham", "ANTM.JK") # Input Symbol Saham, default ANTM.JK
 ticker_data     = get_ticker(ticker_symbol) # Untuk mengambil informasi dari symbol saham
 start           = st.sidebar.date_input("Tanggal Mulai", datetime.date(2021, 1, 1)) #Input Tanggal Awal
-end             = st.sidebar.date_input("Tanggal Akhir", datetime.date(2021, 1, 30)) #Input Tanggal Akhir
+end             = st.sidebar.date_input("Tanggal Akhir", datetime.date(2021, 10, 31)) #Input Tanggal Akhir
 
 # Informasi saham
 # Menampilkan nama lengkap saham

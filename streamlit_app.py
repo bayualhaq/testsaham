@@ -1,45 +1,38 @@
-# import
+#import
 import streamlit as st
 import yfinance as yf
 import cufflinks as cf
-
+import datetime
 # import pandas as pd
 # import numpy as np
 
 # Menampilkan teks header pada slidebar
 st.sidebar.header("Analisa Pasar Saham \n Masukkan Data Saham")
 
-
 # Membuat fungsi untuk mengambil informasi dari symbol saham
 def get_ticker(ticker):
     company = yf.Ticker(ticker)
     return company
 
-
 # Membuat fungsi untuk mengambil informasi period dan interval
-def get_history(period, interval):
-    df = ticker_data.history(period=period, interval=interval)
+def get_history(start, end):
+    df = ticker_data.history(start=start, end=end)
     if len(df) == 0:
         st.write('Data saham tidak ditemukan, silahkan atur kembali sampai data tersedia')
     else:
         df.index = df.index.strftime("%d-%m-%Y %H:%M")
         return df
 
-
 # Input Data
-ticker_symbol = st.sidebar.text_input("Symbol Saham", "ANTM.JK")  # Input Symbol Saham, default ANTM.JK
-
-ticker_data = get_ticker(ticker_symbol)  # Untuk mengambil informasi dari symbol saham
-period = st.sidebar.selectbox("Period",
-                              ['1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max'])  # Input Periode
-interval = st.sidebar.selectbox("Interval",
-                                ['1m', '2m', '5m', '15m', '30m', '60m', '90m', '1h', '1d', '5d', '1wk', '1mo',
-                                 '3mo'])  # Input Periode
+ticker_symbol   = st.sidebar.text_input("Symbol Saham", "ANTM.JK") # Input Symbol Saham, default ANTM.JK
+ticker_data     = get_ticker(ticker_symbol) # Untuk mengambil informasi dari symbol saham
+start           = st.sidebar.date_input("Tanggal Mulai", datetime.date(2021, 1, 1)) #Input Tanggal Awal
+end             = st.sidebar.date_input("Tanggal Akhir", datetime.date(2021, 1, 30)) #Input Tanggal Akhir
 
 # Informasi saham
 # Menampilkan nama lengkap saham
 string_name = ticker_data.info['longName']
-st.markdown("<h1 style='text-align: center'>%s</h1>" % string_name, unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: white;'>%s</h1>" % string_name, unsafe_allow_html=True)
 
 # Menampilkan logo saham
 string_logo = '<center><img src=%s ></center></br>' % ticker_data.info['logo_url']
@@ -54,13 +47,14 @@ st.info(string_summary)
 st.header('**Data Saham**')
 
 # Memasukkan input data ke Fungsi get_history
-ticker_df = get_history(period, interval)
+ticker_df = get_history(start, end)
+
 st.write(ticker_df)
 
 # Menampilkan Candlestick
 # Bollinger bands
 st.header('**Bollinger Bands**')
-qf = cf.QuantFig(ticker_df, title='First Quant Figure', legend='top', name='GS')
+qf = cf.QuantFig(ticker_df, title='Bollinger Bands', legend='top', name='GS')
 qf.add_bollinger_bands()
 fig = qf.iplot(asFigure=True)
 st.plotly_chart(fig)
